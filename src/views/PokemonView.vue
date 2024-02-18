@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SearchPokemon from '@/components/SaerchPokenmon.vue'
 import LoadingComponent from '@/components/common/LoadingComponent.vue'
+import GraphqlResultErrorComponent from '@/components/common/GraphqlResultErrorComponent.vue'
 
 const pokemon = defineModel('pokemon')
 </script>
@@ -42,12 +43,8 @@ const pokemon = defineModel('pokemon')
     >
       <template v-slot="{result: {error, data}, isLoading}">
         <LoadingComponent :is-loading="isLoading" />
-        <div v-if="error">
-          <div v-for="(e,index) in data.errors" :key="index">
-            {{ e.message}}
-          </div>
-        </div>
-        <div v-else-if="data">
+        <GraphqlResultErrorComponent :error="error" :data-errors="data?.errors" />
+        <div v-if="data">
           <div v-for="pokemon in data.getFuzzyPokemon" :key="pokemon.num">
             <div>
               Name: {{ pokemon.species }}
@@ -57,7 +54,6 @@ const pokemon = defineModel('pokemon')
             </div>
           </div>
         </div>
-
         <div v-else> No result</div>
       </template>
       <!--    <PokemonList v-slot="{result: {loading, error, data}}" />-->
