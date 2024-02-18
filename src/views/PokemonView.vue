@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SearchPokemon from '@/components/SaerchPokenmon.vue'
+import LoadingComponent from '@/components/common/LoadingComponent.vue'
 
 const pokemon = defineModel('pokemon')
 </script>
@@ -40,12 +41,10 @@ const pokemon = defineModel('pokemon')
       :skip="!pokemon"
     >
       <template v-slot="{result: {error, data}, isLoading}">
-        <div v-if="isLoading">
-          loading...
-        </div>
-        <div v-else-if="error">
+        <LoadingComponent :is-loading="isLoading" />
+        <div v-if="error">
           <div v-for="(e,index) in data.errors" :key="index">
-            {}
+            {{ e.message}}
           </div>
         </div>
         <div v-else-if="data">
