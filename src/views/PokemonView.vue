@@ -2,42 +2,25 @@
 import SearchPokemon from '@/components/SaerchPokenmon.vue'
 import LoadingComponent from '@/components/common/LoadingComponent.vue'
 import GraphqlResultErrorComponent from '@/components/common/GraphqlResultErrorComponent.vue'
+import PokemonList from '@/components/PokemonList.vue'
 
 const pokemon = defineModel('pokemon')
 </script>
-
-<!--<script lang="ts">-->
-<!--import gql from 'graphql-tag'-->
-
-<!--export default {-->
-<!--  fragments: {-->
-<!--    pokemonList: gql`-->
-<!--      fragment pokemonList on Pokemon {-->
-<!--          sprite-->
-<!--          num-->
-<!--          species-->
-<!--          color-->
-<!--      }-->
-<!--    `-->
-<!--  }-->
-<!--}-->
-<!--</script>-->
 
 <template>
   <div class="container">
     <SearchPokemon v-model:search="pokemon" />
 
+    useQuery
     <ApolloQuery
       :query="gql => gql`
-       query GetFuzzyPokemon($pokemon: String!){
-          getFuzzyPokemon(pokemon: $pokemon){
-            sprite
-            num
-            species
-            color
-          }
-       }
-    `"
+         query GetFuzzyPokemon($pokemon: String!){
+            getFuzzyPokemon(pokemon: $pokemon){
+              ...pokemonList
+            }
+         }
+         ${PokemonList.fragment}
+        `"
       :variables="{pokemon}"
       :skip="!pokemon"
     >
@@ -45,14 +28,7 @@ const pokemon = defineModel('pokemon')
         <LoadingComponent :is-loading="isLoading" />
         <GraphqlResultErrorComponent :error="error" :data-errors="data?.errors" />
         <div v-if="data">
-          <div v-for="pokemon in data.getFuzzyPokemon" :key="pokemon.num">
-            <div>
-              Name: {{ pokemon.species }}
-            </div>
-            <div>
-              <img :src="pokemon.sprite" v-if="pokemon?.sprite" />
-            </div>
-          </div>
+          <PokemonList :pokemon-list="data.getFuzzyPokemon" />
         </div>
         <div v-else> No result</div>
       </template>
