@@ -1,0 +1,11 @@
+query GetFuzzyPokemon($pokemon: String!){
+    getFuzzyPokemon(pokemon: $pokemon){
+        ...pokemonList
+    }
+    fragment pokemonList on Pokemon {
+        sprite
+        num
+        species
+        color
+    }
+}
