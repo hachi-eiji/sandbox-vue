@@ -11,7 +11,6 @@ const pokemon = defineModel('pokemon')
   <div class="container">
     <SearchPokemon v-model:search="pokemon" />
 
-    useQuery
     <ApolloQuery
       :query="gql => gql`
          query GetFuzzyPokemon($pokemon: String!){
