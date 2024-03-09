@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import ReloadNotification from '@/components/common/ReloadNotification.vue'
-import Menu from '@/components/common/Menu.vue'
+import MenuItem from '@/components/common/MenuItem.vue'
 </script>
 
 <template>
   <div class="container">
-    <Menu />
+    <MenuItem />
     <ReloadNotification />
     <RouterView />
   </div>
