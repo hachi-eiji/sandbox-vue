@@ -3,6 +3,7 @@ import SearchPokemon from '@/components/SaerchPokenmon.vue'
 import LoadingComponent from '@/components/common/LoadingComponent.vue'
 import GraphqlResultErrorComponent from '@/components/common/GraphqlResultErrorComponent.vue'
 import PokemonList from '@/components/PokemonList.vue'
+import gql from 'graphql-tag'
 
 const pokemon = defineModel('pokemon')
 </script>
@@ -12,7 +13,7 @@ const pokemon = defineModel('pokemon')
     <SearchPokemon v-model:search="pokemon" />
 
     <ApolloQuery
-      :query="gql => gql`
+      :query="gql`
          query GetFuzzyPokemon($pokemon: String!){
             getFuzzyPokemon(pokemon: $pokemon){
               ...pokemonList
