@@ -38,6 +38,6 @@ const pokemon = defineModel('pokemon')
 
 <style scoped>
 .container {
-  margin: 10px;
+  margin: 20px;
 }
 </style>
