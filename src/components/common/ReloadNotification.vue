@@ -13,8 +13,24 @@ const removePreloadError = () => {
   window.removeEventListener('vite:preloadError', preloadErrorListener)
 }
 
+const checkIndexFile = async () => {
+  const scripts = document.querySelectorAll<HTMLScriptElement>('script')
+  if (scripts?.length > 0) {
+    const src = scripts[0].src
+    console.log(src)
+    const response = await fetch(src, { method: 'head', cache: 'no-store' })
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _ = response.body // memory leakを防ぐためで実際は使わない
+    if (!response.ok) {
+      reloadFlag.value = false
+    }
+  }
+}
+
 onMounted(addPreloadError)
+onMounted(checkIndexFile)
 onUnmounted(removePreloadError)
+onUnmounted(checkIndexFile)
 </script>
 
 <template>
